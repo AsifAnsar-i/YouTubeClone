@@ -12,7 +12,7 @@ const Navbar = () => {
           <IoSearchSharp size={26} className='absolute left-72 text-[#202020]'/>
         </div>
         <Link to="/signin">
-        <div className='flex text-blue-600 items-center gap-2 border p-2 border-[#202020] w-[120px] h-[40px]'>
+        <div className='flex text-blue-600 items-center gap-2 border p-2 border-[#202020] w-[120px] h-[40px] rounded-md'>
           <BsPersonCircle size={26}/>
           SIGN IN
         </div>
