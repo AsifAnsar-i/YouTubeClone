@@ -5,6 +5,7 @@ import userRoutes from "./routes/users.js";
 import videoRoutes from "./routes/videos.js";
 import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
+import cors from "cors";
 const app = express();
 
 dotenv.config();
@@ -20,6 +21,8 @@ const connect = () => {
     });
 };
 
+app.use(cors());
+app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
@@ -36,8 +39,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-
 app.listen(8000, () => {
   connect();
-  console.warn("Connected");
+  console.warn("Connected to server");
 });
