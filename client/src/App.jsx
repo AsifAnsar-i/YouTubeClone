@@ -14,7 +14,9 @@ const App = () => {
         <Navbar />
         <div className=" px-[20px] py-[20px] bg-[#0f0f0f]">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home type="random" />} />
+            <Route path="/trends" element={<Home type="trend" />} />
+            <Route path="/subscriptions" element={<Home type="sub" />} />
             <Route path="/signin" element={<Login />} />
             <Route path="/video/:id" element={<Video />} />
           </Routes>

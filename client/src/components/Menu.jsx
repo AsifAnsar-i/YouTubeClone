@@ -26,19 +26,24 @@ const Menu = () => {
             <RxVideo size={40} className="text-red-600" />
             MaxTube
           </div>
+
+          <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg ">
+            <MdHome size={24} />
+            Home
+          </div>
         </Link>
-        <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg ">
-          <MdHome size={24} />
-          Home
-        </div>
-        <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg">
-          <MdOutlineExplore size={24} />
-          Exlore
-        </div>
-        <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg ">
-          <MdSubscriptions size={24} />
-          Subscriptions
-        </div>
+        <Link to="/trends">
+          <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg">
+            <MdOutlineExplore size={24} />
+            Exlore
+          </div>
+        </Link>
+        <Link to="/subscriptions">
+          <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg ">
+            <MdSubscriptions size={24} />
+            Subscriptions
+          </div>
+        </Link>
         <div className="border-b border-[#202020] my-2.5"></div>
         <div className="flex items-center gap-2 cursor-pointer py-1.5 hover:bg-[#202020] hover:rounded-lg">
           <MdVideoLibrary size={24} />

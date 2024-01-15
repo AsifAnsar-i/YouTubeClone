@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SlLike ,SlDislike} from "react-icons/sl";
 import { GoShareAndroid } from "react-icons/go";
 import { MdSaveAlt } from "react-icons/md";
 import Comments from '../components/Comments';
 import Card from '../components/Card';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'timeago.js';
+import axios from 'axios';
+import { fetchSuccess } from '../redux/videoSlice';
 const Video = () => {
+  const {id}=useParams()
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
+  const dispatch = useDispatch();
+
+
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/api/videos/find/${id}`);
+        const channelRes = await axios.get(
+          `/api/users/find/${videoRes.data.userId}`
+        );
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {}
+    };
+    fetchData();
+  }, [id, dispatch]);
   return (
     <div className='h-full flex gap-4'>
        <div className='text-white w-4/6'>
-         <div>
+         <div className=''>
             <iframe
              width="100%"
              height="410"
@@ -17,16 +43,17 @@ const Video = () => {
              frameBorder="0"
              allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture'
              allowFullScreen
+             className='rounded-lg'
             >
             </iframe>
          </div>
-           <h1 className='mb-2.5 mt-1.5 text-xl font-semibold'>Test video</h1>
+           <h1 className='mb-2.5 mt-1.5 text-xl font-semibold'>{currentVideo?.title}</h1>
            <div className='flex items-center justify-between'>
-            <p className='text-sm'>455,673 views 1 year ago</p>
+            <p className='text-sm'>{currentVideo?.views} views {format(currentVideo?.createdAt)}</p>
             <div className='flex gap-3 items-center'>
                <div className='flex items-center gap-1'>
                  <SlLike/>
-                Like
+               {currentVideo?.likes?.length}
                </div>
                <div className='flex items-center gap-1'>
                  <SlDislike/>
@@ -46,15 +73,15 @@ const Video = () => {
           <div className='flex justify-between'>
             <div className='flex gap-3'>
             <img
-            src="https://images.pexels.com/photos/19448090/pexels-photo-19448090/free-photo-of-two-leopards-lying-together.png?auto=compress&cs=tinysrgb&w=100&lazy=load"
+            src={channel?.img}
             alt="/"
             className="rounded-full w-10 h-10 "
           />
           <div className='flex flex-col'>
-           <h1 className='mb-2 font-semibold'>Max Mad</h1>
-            <span className='text-xs mb-1'>400K Subscribers</span>
+           <h1 className='mb-2 font-semibold'>{channel?.name}</h1>
+            <span className='text-xs mb-1'>{channel?.subscribers} Subscribers</span>
             <div className="border-b border-[#202020] my-2.5 mt-4"></div>
-            <p className='text-xs'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Feel free to let me know if you have any specific requests or if there's anything else I can help you with!</p>
+            <p className='text-xs'>{currentVideo?.desc}</p>
            </div>
              </div>
             <button className='p-2 h-10 bg-red-600 rounded-md'>SUBSCRIBE</button>
@@ -63,6 +90,7 @@ const Video = () => {
           <Comments/>
        </div>
        <div className='text-white w-2/6'>
+          {/* <Card type="small"/>
           <Card type="small"/>
           <Card type="small"/>
           <Card type="small"/>
@@ -82,8 +110,7 @@ const Video = () => {
           <Card type="small"/>
           <Card type="small"/>
           <Card type="small"/>
-          <Card type="small"/>
-          <Card type="small"/>
+          <Card type="small"/> */}
        </div>
     </div>
   )
